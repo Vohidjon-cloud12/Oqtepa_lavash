@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hisobot</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bugungi kun: {{ today }}</h1>
+    <h2>Mahsulotlar haqida umumiy ma'lumotlar</h2>
+    <h3>Har bir mahsulotdan qancha sotilgan (umumiy miqdor)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>Umumiy miqdor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products_quantity %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.total_quantity_sold }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Hech qanday ma'lumot mavjud emas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Har bir mahsulotdan umumiy tushgan pul (price * quantity)</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>Umumiy tushum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products_revenue %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.total_revenue }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Hech qanday ma'lumot mavjud emas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Mijozlar haqida umumiy ma'lumotlar</h2>
+    <h3>Har bir mijozning umumiy buyurtma soni</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Mijoz nomi</th>
+                <th>Umumiy buyurtma soni</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers_orders %}
+                <tr>
+                    <td>{{ customer.customer }}</td>
+                    <td>{{ customer.total_orders }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Hech qanday ma'lumot mavjud emas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Har bir mijozning umumiy xarajatlari</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Mijoz nomi</th>
+                <th>Umumiy xarajatlar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers_spent %}
+                <tr>
+                    <td>{{ customer.customer }}</td>
+                    <td>{{ customer.total_spent }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Hech qanday ma'lumot mavjud emas.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Eng ko'p sotilgan mahsulot</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>Umumiy miqdor</th>
+            </tr>
+        </thead>    
+        <tbody>
+            {% if top_selling_product %}
+                <tr>
+                    <td>{{ top_selling_product.name }}</td>
+                    <td>{{ top_selling_product.total_quantity_sold }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">Hech qanday ma'lumot mavjud emas.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <h3>Umumiy tushgan pul</h3>
+    <p>Umumiy tushgan pul: {{ total_revenue.total_revenue }}</p>
+
+    <h2>Bir kunlik hisobot</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>Umumiy miqdor</th>
+                <th>Umumiy tushum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in one_day_report %}
+                <tr>
+                    <td>{{ report.product__name }}</td>
+                    <td>{{ report.total_quantity_sold }}</td>
+                    <td>{{ report.total_revenue }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Bugungi kunda hech qanday buyurtma yo'q.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>{{ ten_days_ago }} dan {{ today }} gacha bo'lgan 10 kunlik hisobot</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Mahsulot nomi</th>
+                <th>Umumiy miqdor</th>
+                <th>Umumiy tushum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in ten_day_report %}
+                <tr>
+                    <td>{{ report.product__name }}</td>
+                    <td>{{ report.total_quantity_sold }}</td>
+                    <td>{{ report.total_revenue}}</td>
+                </tr>   
+            {% endfor %}        
+        </tbody>  
+    </table>
